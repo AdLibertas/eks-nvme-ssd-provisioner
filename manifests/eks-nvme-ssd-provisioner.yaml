@@ -17,6 +17,10 @@ spec:
       automountServiceAccountToken: false
       nodeSelector:
         aws.amazon.com/eks-local-ssd: "true"
+      tolerations:
+        - key: "dedicated"
+          operator: "Exists"
+          effect: "NoSchedule"
       priorityClassName: system-node-critical
       containers:
       - name: eks-nvme-ssd-provisioner
