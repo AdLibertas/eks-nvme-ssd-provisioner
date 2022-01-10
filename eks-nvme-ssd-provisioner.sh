@@ -40,9 +40,10 @@ then
   else
     mount -o defaults,noatime,discard,nobarrier --uuid "$UUID" "/pv-disks/$UUID"
   fi
+  chmod -R 777 "/pv-disks/$UUID"
   ln -s "/pv-disks/$UUID" /nvme/disk || true
   echo "Device $DEVICE has been mounted to /pv-disks/$UUID"
-  while sleep 3600; do :; done
+  exit 0
 fi
 
 # Perform provisioning based on nvme device count
@@ -72,8 +73,9 @@ esac
 UUID=$(blkid -s UUID -o value "$DEVICE")
 mkdir -p "/pv-disks/$UUID"
 mount -o defaults,noatime,discard,nobarrier --uuid "$UUID" "/pv-disks/$UUID"
+chmod -R 777 "/pv-disks/$UUID"
 ln -s "/pv-disks/$UUID" /nvme/disk
 echo "Device $DEVICE has been mounted to /pv-disks/$UUID"
 echo "NVMe SSD provisioning is done and I will go to sleep now"
 
-while sleep 3600; do :; done
+exit 0
